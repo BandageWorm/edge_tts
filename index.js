@@ -254,93 +254,7 @@ const HTML_PAGE = `
             font-weight: 500;
         }
         
-        .wechat-promotion {
-            margin-top: 40px;
-            background: var(--surface-color);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-        }
-        
-        .promotion-header {
-            background: #f1f5f9;
-            padding: 20px 30px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .promotion-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-        
-        .promotion-subtitle {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-        
-        .promotion-content {
-            padding: 30px;
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 24px;
-            align-items: center;
-        }
-        
-        .qr-code {
-            width: 120px;
-            height: 120px;
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .qr-code img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .promotion-info h3 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-        }
-        
-        .promotion-info p {
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-        
-        .benefits-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .benefits-list li {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            margin-bottom: 8px;
-        }
-        
-        .benefits-list li:before {
-            content: "✓";
-            color: var(--success-color);
-            font-weight: bold;
-            font-size: 1rem;
-        }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -806,17 +720,7 @@ const HTML_PAGE = `
                 grid-template-columns: 1fr;
                 gap: 16px;
             }
-            
-            .promotion-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 20px;
-            }
-            
-            .qr-code {
-                margin: 0 auto;
-            }
-            
+
             .input-method-tabs {
                 gap: 2px;
                 padding: 2px;
@@ -941,7 +845,6 @@ const HTML_PAGE = `
 
     <div class="container">
         <div class="header">
-            <h1 data-i18n="header.title">VoiceCraft</h1>
             <p class="subtitle" data-i18n="header.subtitle">AI-Powered Voice Processing Platform</p>
             <div class="features">
                 <div class="feature-item">
@@ -1115,6 +1018,16 @@ const HTML_PAGE = `
                                 <option value="serious">🎯 严肃正式</option>
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="format">输出格式</label>
+                            <select class="form-select" id="format">
+                                <option value="mp3" selected>🎵 MP3</option>
+                                <option value="wav">🎶 WAV</option>
+                                <option value="pcm">📊 PCM</option>
+                                <option value="ogg">🔊 OGG(Opus)</option>
+                            </select>
+                        </div>
                     </div>
                     
                     <button type="submit" class="btn-primary" id="generateBtn">
@@ -1132,7 +1045,7 @@ const HTML_PAGE = `
                     
                     <div id="success" style="display: none;">
                         <audio id="audioPlayer" class="audio-player" controls></audio>
-                        <a id="downloadBtn" class="btn-secondary" download="speech.mp3">
+                        <a id="downloadBtn" class="btn-secondary">
                             <span>📥</span>
                             <span>下载音频文件</span>
                         </a>
@@ -1174,23 +1087,10 @@ const HTML_PAGE = `
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="tokenInput">API Token配置</label>
-                        <div class="token-config">
-                            <div class="token-option">
-                                <label class="token-label">
-                                    <input type="radio" name="tokenOption" value="default" checked>
-                                    <span>使用默认Token</span>
-                                </label>
-                            </div>
-                            <div class="token-option">
-                                <label class="token-label">
-                                    <input type="radio" name="tokenOption" value="custom">
-                                    <span>使用硅基流动自定义Token</span>
-                                </label>
-                            </div>
-                        </div>
-                        <input type="password" class="form-input" id="tokenInput" 
-                               placeholder="输入您的API Token（可选）" style="display: none;">
+                        <label class="form-label" for="tokenInput">硅基流动 KEY</label>
+                        <input type="password" class="form-input" id="tokenInput"
+                               placeholder="请输入您的硅基流动 API Key" required>
+                        <p style="margin-top: 6px; font-size: 0.8rem; color: var(--text-secondary);">需要硅基流动平台 API Key，请自行配置</p>
                     </div>
 
                     <button type="submit" class="btn-primary" id="transcribeBtn">
@@ -1229,29 +1129,6 @@ const HTML_PAGE = `
                     </div>
                     
                     <div id="transcriptionError" class="error-message" style="display: none;"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 公众号推广组件 -->
-        <div class="wechat-promotion" id="wechatPromotion" style="display: none;">
-            <div class="promotion-header">
-                <h2 class="promotion-title">🎉 生成成功！喜欢这个工具吗？</h2>
-                <p class="promotion-subtitle">关注我们获取更多AI工具和技术分享</p>
-            </div>
-            <div class="promotion-content">
-                <div class="qr-code">
-                    <img src="https://img.996007.icu/file/img1/a48c4eac2f2a99909da5611c3885726.jpg" alt="微信公众号二维码" />
-                </div>
-                <div class="promotion-info">
-                    <h3>关注「一只会飞的旺旺」公众号</h3>
-                    <p>获取更多实用的AI工具、技术教程和独家资源分享</p>
-                    <ul class="benefits-list">
-                        <li>最新AI工具推荐和使用教程</li>
-                        <li>前沿技术解析和实战案例</li>
-                        <li>独家资源和工具源码分享</li>
-                        <li>技术问题答疑和交流社群</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -1534,7 +1411,6 @@ const HTML_PAGE = `
             initializeFileUpload();
             initializeModeSwitcher();
             initializeAudioUpload();
-            initializeTokenConfig();
             initializeLanguageSwitcher();
         });
 
@@ -1653,6 +1529,7 @@ const HTML_PAGE = `
             const speed = document.getElementById('speed').value;
             const pitch = document.getElementById('pitch').value;
             const style = document.getElementById('style').value;
+            const format = document.getElementById('format').value;
             
             const generateBtn = document.getElementById('generateBtn');
             const resultContainer = document.getElementById('result');
@@ -1714,7 +1591,8 @@ const HTML_PAGE = `
                             voice: voice,
                             speed: parseFloat(speed),
                             pitch: pitch,
-                            style: style
+                            style: style,
+                            format: format
                         })
                     });
                 } else {
@@ -1728,6 +1606,7 @@ const HTML_PAGE = `
                     formData.append('speed', speed);
                     formData.append('pitch', pitch);
                     formData.append('style', style);
+                    formData.append('format', format);
                     
                     response = await fetch('/v1/audio/speech', {
                         method: 'POST',
@@ -1749,16 +1628,10 @@ const HTML_PAGE = `
                 
                 audioPlayer.src = audioUrl;
                 downloadBtn.href = audioUrl;
+                downloadBtn.download = 'speech.' + format;
                 
                 loading.style.display = 'none';
                 success.style.display = 'block';
-                
-                // 显示公众号推广组件
-                setTimeout(() => {
-                    const wechatPromotion = document.getElementById('wechatPromotion');
-                    wechatPromotion.style.display = 'block';
-                    wechatPromotion.classList.add('fade-in');
-                }, 1000);
                 
             } catch (err) {
                 loading.style.display = 'none';
@@ -1802,7 +1675,6 @@ const HTML_PAGE = `
             const transcriptionMode = document.getElementById('transcriptionMode');
             const mainContent = document.querySelector('.main-content');
             const transcriptionContainer = document.getElementById('transcriptionContainer');
-            const wechatPromotion = document.getElementById('wechatPromotion');
 
             currentMode = mode;
 
@@ -1819,9 +1691,6 @@ const HTML_PAGE = `
                 mainContent.style.display = 'none';
                 transcriptionContainer.style.display = 'block';
             }
-
-            // 隐藏推广组件
-            wechatPromotion.style.display = 'none';
         }
 
         // 初始化音频上传功能
@@ -1906,25 +1775,6 @@ const HTML_PAGE = `
             document.getElementById('audioDropZone').style.display = 'none';
         }
 
-        // 初始化Token配置
-        function initializeTokenConfig() {
-            const tokenRadios = document.querySelectorAll('input[name="tokenOption"]');
-            const tokenInput = document.getElementById('tokenInput');
-
-            tokenRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'custom') {
-                        tokenInput.style.display = 'block';
-                        tokenInput.required = true;
-                    } else {
-                        tokenInput.style.display = 'none';
-                        tokenInput.required = false;
-                        tokenInput.value = '';
-                    }
-                });
-            });
-        }
-
         // 处理语音转录表单提交
         document.getElementById('transcriptionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -1941,12 +1791,10 @@ const HTML_PAGE = `
                 return;
             }
             
-            // 获取Token配置
-            const tokenOption = document.querySelector('input[name="tokenOption"]:checked').value;
-            const customToken = document.getElementById('tokenInput').value;
-            
-            if (tokenOption === 'custom' && !customToken.trim()) {
-                alert('请输入自定义Token');
+            // 获取API Token
+            const token = document.getElementById('tokenInput').value.trim();
+            if (!token) {
+                alert('请输入硅基流动 API Key');
                 return;
             }
             
@@ -1968,10 +1816,7 @@ const HTML_PAGE = `
                 // 构建FormData
                 const formData = new FormData();
                 formData.append('file', selectedAudioFile);
-                
-                if (tokenOption === 'custom') {
-                    formData.append('token', customToken);
-                }
+                formData.append('token', token);
                 
                 const response = await fetch('/v1/audio/transcriptions', {
                     method: 'POST',
@@ -1989,13 +1834,6 @@ const HTML_PAGE = `
                 document.getElementById('transcriptionText').value = result.text || '';
                 transcriptionLoading.style.display = 'none';
                 transcriptionSuccess.style.display = 'block';
-                
-                // 显示公众号推广组件
-                setTimeout(() => {
-                    const wechatPromotion = document.getElementById('wechatPromotion');
-                    wechatPromotion.style.display = 'block';
-                    wechatPromotion.classList.add('fade-in');
-                }, 1000);
                 
             } catch (err) {
                 transcriptionLoading.style.display = 'none';
@@ -2167,8 +2005,11 @@ async function handleRequest(request) {
                 speed = '1.0',
                 volume = '0',
                 pitch = '0',
-                style = "general"
+                style = "general",
+                format = "mp3"
             } = requestBody;
+
+            const outputFormat = getOutputFormat(format);
 
             let rate = parseInt(String((parseFloat(speed) - 1.0) * 100));
             let numVolume = parseInt(String(parseFloat(volume) * 100));
@@ -2180,7 +2021,8 @@ async function handleRequest(request) {
                 numPitch >= 0 ? `+${numPitch}Hz` : `${numPitch}Hz`,
                 numVolume >= 0 ? `+${numVolume}%` : `${numVolume}%`,
                 style,
-                "audio-24khz-48kbitrate-mono-mp3"
+                outputFormat,
+                format
             );
 
             return response;
@@ -2265,6 +2107,28 @@ function optimizedTextSplit(text, maxChunkSize = 1500) {
     return chunks.filter(chunk => chunk.length > 0);
 }
 
+// 根据格式获取Edge TTS输出格式
+function getOutputFormat(format) {
+    const formatMap = {
+        mp3: 'audio-24khz-48kbitrate-mono-mp3',
+        wav: 'riff-24khz-16bit-mono-pcm',
+        pcm: 'raw-24khz-16bit-mono-pcm',
+        ogg: 'ogg-24khz-16bit-mono-opus'
+    };
+    return formatMap[format] || 'audio-24khz-48kbitrate-mono-mp3';
+}
+
+// 根据格式获取Content-Type
+function getContentType(format) {
+    const typeMap = {
+        mp3: 'audio/mpeg',
+        wav: 'audio/wav',
+        pcm: 'audio/pcm',
+        ogg: 'audio/ogg'
+    };
+    return typeMap[format] || 'audio/mpeg';
+}
+
 // 批量处理音频块
 async function processBatchedAudioChunks(chunks, voiceName, rate, pitch, volume, style, outputFormat, batchSize = 3, delayMs = 1000) {
     const audioChunks = [];
@@ -2301,20 +2165,22 @@ async function processBatchedAudioChunks(chunks, voiceName, rate, pitch, volume,
     return audioChunks;
 }
 
-async function getVoice(text, voiceName = "zh-CN-XiaoxiaoNeural", rate = '+0%', pitch = '+0Hz', volume = '+0%', style = "general", outputFormat = "audio-24khz-48kbitrate-mono-mp3") {
+async function getVoice(text, voiceName = "zh-CN-XiaoxiaoNeural", rate = '+0%', pitch = '+0Hz', volume = '+0%', style = "general", outputFormat = "audio-24khz-48kbitrate-mono-mp3", format = "mp3") {
     try {
         // 文本预处理
         const cleanText = text.trim();
         if (!cleanText) {
             throw new Error("文本内容为空");
         }
-        
+
+        const contentType = getContentType(format);
+
         // 如果文本很短，直接处理
         if (cleanText.length <= 1500) {
             const audioBlob = await getAudioChunk(cleanText, voiceName, rate, pitch, volume, style, outputFormat);
             return new Response(audioBlob, {
                 headers: {
-                    "Content-Type": "audio/mpeg",
+                    "Content-Type": contentType,
                     ...makeCORSHeaders()
                 }
             });
@@ -2344,10 +2210,10 @@ async function getVoice(text, voiceName = "zh-CN-XiaoxiaoNeural", rate = '+0%', 
         );
 
         // 将音频片段拼接起来
-        const concatenatedAudio = new Blob(audioChunks, { type: 'audio/mpeg' });
+        const concatenatedAudio = new Blob(audioChunks, { type: contentType });
         return new Response(concatenatedAudio, {
             headers: {
-                "Content-Type": "audio/mpeg",
+                "Content-Type": contentType,
                 ...makeCORSHeaders()
             }
         });
@@ -2608,6 +2474,7 @@ async function handleFileUpload(request) {
         const volume = formData.get('volume') || '0';
         const pitch = formData.get('pitch') || '0';
         const style = formData.get('style') || 'general';
+        const format = formData.get('format') || 'mp3';
 
         // 验证文件
         if (!file) {
@@ -2707,6 +2574,8 @@ async function handleFileUpload(request) {
         let numVolume = parseInt(String(parseFloat(volume) * 100));
         let numPitch = parseInt(pitch);
 
+        const outputFormat = getOutputFormat(format);
+
         // 调用TTS服务
         return await getVoice(
             text,
@@ -2715,7 +2584,8 @@ async function handleFileUpload(request) {
             numPitch >= 0 ? `+${numPitch}Hz` : `${numPitch}Hz`,
             numVolume >= 0 ? `+${numVolume}%` : `${numVolume}%`,
             style,
-            "audio-24khz-48kbitrate-mono-mp3"
+            outputFormat,
+            format
         );
 
     } catch (error) {
@@ -2781,7 +2651,7 @@ async function handleAudioTranscription(request) {
         // 解析FormData
         const formData = await request.formData();
         const audioFile = formData.get('file');
-        const customToken = formData.get('token');
+        const token = formData.get('token');
 
         // 验证音频文件
         if (!audioFile) {
@@ -2847,8 +2717,23 @@ async function handleAudioTranscription(request) {
             });
         }
 
-        // 使用默认token或用户提供的token
-        const token = customToken || 'sk-wtldsvuprmwltxpbspbmawtolbacghzawnjhtlzlnujjkfhh';
+        // 用户提供的token
+        if (!token) {
+            return new Response(JSON.stringify({
+                error: {
+                    message: "请提供API Token",
+                    type: "invalid_request_error",
+                    param: "token",
+                    code: "missing_token"
+                }
+            }), {
+                status: 400,
+                headers: {
+                    "Content-Type": "application/json",
+                    ...makeCORSHeaders()
+                }
+            });
+        }
 
         // 构建发送到硅基流动API的FormData
         const apiFormData = new FormData();
